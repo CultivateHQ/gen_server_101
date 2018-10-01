@@ -86,11 +86,19 @@ defmodule ProcessFun do
   {:counter_value, 1}
   ```
 
-  Now we have the basics of building intercommunicating processes; we have the barest skeleton of what is inside a GenServer. Next let's reimplement this as a more idiomatic GenServer.
+  The functions `start_queryable_counter/1`, `increment_queryable_counter/1`, and
+  `queryable_counter_value/1` wrap the spawning and message passing in a
+  clearner API. The API is tested by ProcessFunTest (see test directory), which you can
+  run from the terminal by `mix test`. (Remember to exit from iex with `ctrl-c` first)
+
+  ## EXERCISE
+
+  Implement `decrement_queryable_counter/1`. A test has been written for you; remove
+  the skip tag.
 
   """
 
-  @spec simplest_counter(number()) :: no_return()
+  @spec simplest_counter(integer()) :: no_return()
   def simplest_counter(value) do
     IO.puts("The count is #{value}")
 
@@ -100,7 +108,7 @@ defmodule ProcessFun do
     end
   end
 
-  @spec queryable_counter(number()) :: no_return()
+  @spec queryable_counter(integer()) :: no_return()
   def queryable_counter(value) do
     receive do
       :increment ->
@@ -110,5 +118,34 @@ defmodule ProcessFun do
         send(pid, {:counter_value, value})
         queryable_counter(value)
     end
+  end
+
+  @spec start_queryable_counter(integer()) :: pid()
+  def start_queryable_counter(value) do
+    spawn(__MODULE__, :queryable_counter, [value])
+  end
+
+  @spec queryable_counter_value(pid()) :: integer() | {:error, :timeout}
+  def queryable_counter_value(pid) do
+    send(pid, {:query, self()})
+
+    receive do
+      {:counter_value, value} ->
+        value
+    after
+      3_000 -> {:error, :timeout}
+    end
+  end
+
+  @spec increment_queryable_counter(pid()) :: :ok
+  def increment_queryable_counter(pid) do
+    send(pid, :increment)
+    :ok
+  end
+
+  @spec decrement_queryable_counter(pid()) :: :ok
+  def decrement_queryable_counter(_pid) do
+    ## IMPLEMENT ME
+    :ok
   end
 end
