@@ -28,6 +28,10 @@ deals with the edgecases that we haven't thought of.
 
 Here we are presented with the counter, reimplemented as a GenServer. Next we will add some functionality.
 
+## Part 3 - Make your own
+
+[NumberGuess](lib/number_guess.ex) is an unimplemented GenServer representing a number guessing game. Make its
+tests pass.
 
 
 

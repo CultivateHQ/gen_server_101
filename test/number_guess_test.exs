@@ -29,6 +29,7 @@ defmodule NumberGuessTest do
   end
 
   defp do_guess({direction, pid}, {guess, guess_count}) do
+    assert guess_count < 101
     guess_result = NumberGuess.guess(pid, guess)
     assert NumberGuess.guesses(pid) == guess_count
     check_guess_result(guess_result, {direction, pid}, {guess, guess_count})
