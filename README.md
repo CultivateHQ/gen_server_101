@@ -5,7 +5,7 @@
 If you are writing a web application with Phoenix and Ecto, you may not need to write a GenServer for quite a while; however 
 you will be using them under the hood and benefit from knowing what is going on.
 
-If you are writing almost anything else in Elixir, especially a Nerves application, 
+If you are writing almost anything else in Elixir, especially a Nerves application, you will be using GenServers.
 
 ## What you'll need to fully participate
 
@@ -18,6 +18,8 @@ If you are writing almost anything else in Elixir, especially a Nerves applicati
 GenServers are really just a set of functionality layered over "processes", Erlang/Elixir's basic unit of
 concurrency. This may be overly ambitious for an hour, but we will work on implementing a simple counter with just
 processes and our brains.
+
+The instructions for this are in the moduledoc for [lib/process_fun.ex](lib/process_fun.ex).
 
 ## Part 2 - GenServers
 
