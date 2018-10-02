@@ -45,16 +45,14 @@ defmodule Counter do
   end
 
   @spec decrement(pid()) :: :ok
-  def decrement(_pid) do
-    ##  IMPLEMENT ME
+  def decrement(pid) do
+    GenServer.cast(pid, :decrement)
     :ok
   end
 
   @spec increment_after(pid, non_neg_integer()) :: :ok
-  def increment_after(_pid, milliseconds) when milliseconds >= 0 do
-    ## IMPLEMENT ME
-
-    # hint Process.send_after/2
+  def increment_after(pid, milliseconds) when milliseconds >= 0 do
+    Process.send_after(pid, {:increment, self()}, milliseconds)
     :ok
   end
 
@@ -70,5 +68,15 @@ defmodule Counter do
 
   def handle_cast(:increment, state = %{value: value}) do
     {:noreply, %{state | value: value + 1}}
+  end
+
+  def handle_cast(:decrement, state = %{value: value}) do
+    {:noreply, %{state | value: value - 1}}
+  end
+
+  def handle_info({:increment, from_pid}, state = %{value: value}) do
+    new_value = value + 1
+    send(from_pid, {:counter_incremented, {self(), new_value}})
+    {:noreply, %{state | value: new_value}}
   end
 end

@@ -12,16 +12,12 @@ defmodule CounterTest do
     assert Counter.value(pid) == 5
   end
 
-  # Remove this tag
-  @tag skip: true
   test "decrementing" do
     {:ok, pid} = Counter.start_link(4)
     Counter.decrement(pid)
     assert Counter.value(pid) == 3
   end
 
-  # Remove this tag
-  @tag skip: true
   test "increment after" do
     {:ok, pid} = Counter.start_link(4)
     Counter.increment_after(pid, 40)

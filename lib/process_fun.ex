@@ -114,6 +114,9 @@ defmodule ProcessFun do
       :increment ->
         queryable_counter(value + 1)
 
+      :decrement ->
+        queryable_counter(value - 1)
+
       {:query, pid} ->
         send(pid, {:counter_value, value})
         queryable_counter(value)
@@ -144,8 +147,8 @@ defmodule ProcessFun do
   end
 
   @spec decrement_queryable_counter(pid()) :: :ok
-  def decrement_queryable_counter(_pid) do
-    ## IMPLEMENT ME
+  def decrement_queryable_counter(pid) do
+    send(pid, :decrement)
     :ok
   end
 end

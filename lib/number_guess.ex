@@ -27,17 +27,29 @@ defmodule NumberGuess do
   Make a guess.
   """
   @spec guess(pid(), integer()) :: :correct | :too_high | :too_low
-  def guess(_pid, _guess) do
-    # IMPLEMENT
-    :too_low
+  def guess(pid, guess) do
+    GenServer.call(pid, {:guess, guess})
   end
 
   @doc """
   The number of guesses made so far.
   """
   @spec guesses(pid) :: non_neg_integer()
-  def guesses(_pid) do
-    ## IMPLEMENT
-    0
+  def guesses(pid) do
+    GenServer.call(pid, :guesses)
+  end
+
+  def handle_call({:guess, guess}, _from, state) do
+    result = case state.secret_number do
+      ^guess -> :correct
+      secret_number when guess < secret_number -> :too_low
+      _ -> :too_high
+    end
+
+    {:reply, result, %{state | guesses: state.guesses + 1}}
+  end
+
+  def handle_call(:guesses, _from, state = %{guesses: guesses}) do
+    {:reply, guesses, state}
   end
 end

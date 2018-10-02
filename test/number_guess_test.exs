@@ -1,22 +1,16 @@
 defmodule NumberGuessTest do
   use ExUnit.Case
 
-  # remove skip tag
-  @tag skip: true
   test "guess incrementing from 1" do
     {:ok, pid} = NumberGuess.start_link()
     do_guess({:incrementing, pid}, {1, 1})
   end
 
-  # remove skip tag
-  @tag skip: true
   test "guess decremeting from 100" do
     {:ok, pid} = NumberGuess.start_link()
     do_guess({:decrementing, pid}, {100, 1})
   end
 
-  # remove skip tag
-  @tag skip: true
   test "50 is sometimes too high, and sometimes too low" do
     results =
       for _i <- 1..1_000 do

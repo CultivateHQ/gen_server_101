@@ -12,8 +12,6 @@ defmodule ProcessFunTest do
     assert ProcessFun.queryable_counter_value(pid) == 2
   end
 
-  # Remove the tag below and make this pass
-  @tag skip: true
   test "decrementing queryable counter" do
     pid = ProcessFun.start_queryable_counter(1)
     ProcessFun.decrement_queryable_counter(pid)
