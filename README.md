@@ -26,7 +26,7 @@ The instructions for this are in the moduledoc for [lib/process_fun.ex](lib/proc
 Ok, that was fairly easy but a bit boilerplate. GenServers does all that basic work, adds extra functionality, and
 deals with the edgecases that we haven't thought of.
 
-Here we are presented with the counter, reimplemented as a GenServer. Next we will add some functionality.
+Here we are presented with the counter, [reimplemented as a GenServer](lib/counter.ex). Next we will add some functionality.
 
 ## Part 3 - Make your own
 
